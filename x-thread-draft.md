@@ -42,7 +42,7 @@ Here's the whole workflow:
 
 No npm. No pip. No dependencies. Just two tiny files.
 
-github.com/YOUR_USERNAME/image-uploader-claude-code
+github.com/Jobbha/image-uploader-claude-code
 
 ## Tweet 6 (CTA)
 

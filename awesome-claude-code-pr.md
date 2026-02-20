@@ -3,7 +3,7 @@
 ## Line to add (under Slash Commands section)
 
 ```markdown
-[Image Uploader](https://github.com/YOUR_USERNAME/image-uploader-claude-code) by YOUR_USERNAME - Paste clipboard images into Claude Code. Grabs images from the Windows clipboard via .NET APIs so Claude can see screenshots, error messages, charts, and more. One-command install, zero dependencies.
+[Image Uploader](https://github.com/Jobbha/image-uploader-claude-code) by Jobbha - Paste clipboard images into Claude Code. Grabs images from the Windows clipboard via .NET APIs so Claude can see screenshots, error messages, charts, and more. One-command install, zero dependencies.
 ```
 
 ## PR title

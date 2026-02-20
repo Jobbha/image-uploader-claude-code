@@ -64,7 +64,7 @@ $ARGUMENTS
 ### Option B: Clone this repo
 
 ```powershell
-git clone https://github.com/YOUR_USERNAME/image-uploader-claude-code.git
+git clone https://github.com/Jobbha/image-uploader-claude-code.git
 cd image-uploader-claude-code
 .\install.ps1
 ```
