@@ -5,7 +5,7 @@ npx image-uploader-claude-code
 
 Then restart Claude Code and type **paste**.
 
-### Or install manually:# Image Uploader for Claude Code
+### Or install manually: # Image Uploader for Claude Code
 
 **Copy an image. Type `image upload` in Claude Code. It sees it.**
 
