@@ -1,28 +1,40 @@
+#!/bin/bash
 # ============================================================
-#  Image Uploader for Claude Code — Windows Installer
-#  Run: .\install.ps1
+#  Image Uploader for Claude Code — macOS Installer
+#  Run: bash install.sh
 # ============================================================
 
-$claudeDir = Join-Path $env:USERPROFILE '.claude'
-$skillsDir = Join-Path $claudeDir 'skills'
-$skillDir = Join-Path $skillsDir 'image-upload'
+CLAUDE_DIR="$HOME/.claude"
+SKILL_DIR="$CLAUDE_DIR/skills/image-upload"
 
-New-Item -ItemType Directory -Path $skillDir -Force | Out-Null
+mkdir -p "$SKILL_DIR"
 
-# Clipboard grab script (local only — no network, no API keys)
-@'
-Add-Type -AssemblyName System.Windows.Forms
-Add-Type -AssemblyName System.Drawing
-$img = [System.Windows.Forms.Clipboard]::GetImage()
-if ($null -eq $img) { Write-Host 'NO_IMAGE'; return }
-$path = Join-Path $env:TEMP 'claude-clipboard.png'
-$img.Save($path, [System.Drawing.Imaging.ImageFormat]::Png)
-$img.Dispose()
-Write-Host $path
-'@ | Set-Content (Join-Path $claudeDir 'clipboard-grab.ps1')
+# Clipboard grab script
+cat > "$CLAUDE_DIR/clipboard-grab.sh" << 'GRAB'
+#!/bin/bash
+swift - <<'SWIFT'
+import AppKit
+
+let pb = NSPasteboard.general
+
+if let data = pb.data(forType: .png) {
+    try? data.write(to: URL(fileURLWithPath: "/tmp/claude-clipboard.png"))
+    print("/tmp/claude-clipboard.png")
+} else if let tiffData = pb.data(forType: .tiff),
+          let rep = NSBitmapImageRep(data: tiffData),
+          let pngData = rep.representation(using: .png, properties: [:]) {
+    try? pngData.write(to: URL(fileURLWithPath: "/tmp/claude-clipboard.png"))
+    print("/tmp/claude-clipboard.png")
+} else {
+    print("NO_IMAGE")
+}
+SWIFT
+GRAB
+
+chmod +x "$CLAUDE_DIR/clipboard-grab.sh"
 
 # Skill definition
-@'
+cat > "$SKILL_DIR/SKILL.md" << 'SKILL'
 ---
 name: image-upload
 description: Grab an image from the clipboard and analyze it. Use when the user says image upload, paste, screenshot, clipboard, or asks to look at something they copied.
@@ -43,12 +55,13 @@ If the output is a file path (not "NO_IMAGE"), read that image file. Briefly ack
 If the output is "NO_IMAGE", tell the user no image was found in the clipboard and to copy an image first (Win+Shift+S on Windows, Cmd+Ctrl+Shift+4 on Mac, or copy from any app).
 
 $ARGUMENTS
-'@ | Set-Content (Join-Path $skillDir 'SKILL.md')
+SKILL
 
-Write-Host ''
-Write-Host '  Image Uploader installed!' -ForegroundColor Green
-Write-Host ''
-Write-Host '  Next steps:' -ForegroundColor White
-Write-Host '    1. If Claude Code is running, type /exit and run "claude" again' -ForegroundColor White
-Write-Host '    2. Copy an image (Win+Shift+S to screenshot)' -ForegroundColor White
-Write-Host '    3. Type: image upload' -ForegroundColor Cyan
+echo ""
+echo "  Image Uploader installed!"
+echo ""
+echo "  Next steps:"
+echo "    1. If Claude Code is running, type /exit and run 'claude' again"
+echo "    2. Copy an image (Cmd+Ctrl+Shift+4 to screenshot to clipboard)"
+echo "    3. Type: image upload"
+echo ""
