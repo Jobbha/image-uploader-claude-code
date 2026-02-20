@@ -1,0 +1,32 @@
+{
+  "name": "image-uploader-claude-code",
+  "version": "1.0.0",
+  "description": "Paste clipboard images directly into Claude Code. Windows + macOS.",
+  "bin": {
+    "image-uploader-claude-code": "./install.js"
+  },
+  "keywords": [
+    "claude-code",
+    "claude",
+    "clipboard",
+    "screenshot",
+    "image",
+    "paste",
+    "anthropic",
+    "developer-tools",
+    "terminal",
+    "cli"
+  ],
+  "author": "Jobbha",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Jobbha/image-uploader-claude-code"
+  },
+  "homepage": "https://github.com/Jobbha/image-uploader-claude-code",
+  "files": [
+    "install.js",
+    "README.md",
+    "LICENSE"
+  ]
+}
